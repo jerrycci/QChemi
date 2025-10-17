@@ -55,3 +55,38 @@ python3 scripts/run_vqe_fragment_v2.py --mode integrals   --h1 frag_h1_mo.npy --
 ---
 **註**：本 repo 採 **src-layout**；在本目錄執行腳本時，請以 repo 根目錄為工作目錄（或設定 `PYTHONPATH=src`）。
 
+# QChemi: Quantum DMET + VQE Binding Energy Framework
+
+This package provides a **minimal, reproducible skeleton** for the workflow in  
+**Kirsopp et al., Int. J. Quantum Chem. (2022)** – computing protein–ligand interaction energies with DMET+VQE.
+
+## 🧩 Structure
+
+```
+src/qiskit_dmet_vqe/
+ ├─ energies/binding_energy.py   ← orchestrates ligand-in-protein vs solvent energies
+ ├─ dmet/fragmenter.py           ← creates DMET-like fragments
+ ├─ dmet/solver_vqe.py           ← tiny HF/VQE solver
+ └─ qpu/pmsv.py                  ← partitioned measurement symmetry verification
+
+examples/bace1_minimal/          ← runnable example (toy data)
+tests/                           ← pytest smoke tests
+Makefile                         ← make run / make test
+```
+
+## 🚀 Quickstart
+
+```bash
+git clone https://github.com/jerrycci/QChemi.git
+cd QChemi
+make run
+```
+
+## 🎯 Reproducing the IJQC 2022 Pipeline
+
+1. **Ligand in Protein Field:** DMET fragments, [NH2–C–NH⁺] via VQE (4 qubits)  
+2. **Ligand in Solvent:** dd-COSMO single-point energy  
+3. **Binding Energy:** ΔE = E_protein − E_solvent  
+4. **Error Mitigation:** PMSV filter on measurement counts
+
+The `examples/bace1_minimal` folder demonstrates this flow with lightweight stubs; you can later plug in PySCF and Qiskit Nature for real computations.
