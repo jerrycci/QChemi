@@ -1,0 +1,7 @@
+
+system:
+  basis: sto3g
+  unit: angstrom
+  charge: 0
+  spin: 0
+  xyz_file: data/pocket.xyz

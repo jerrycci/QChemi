@@ -1,0 +1,17 @@
+# --- Qiskit Quantum Stack (Python 3.8 compatible) ---
+qiskit==1.2.4
+# Aer 0.13.3 is the last prebuilt wheel supporting Python 3.8
+qiskit-aer==0.13.3
+# Compatible Nature version for Qiskit 1.x
+qiskit-nature==0.7.2
+
+# --- Quantum Chemistry backend ---
+pyscf==2.10.0
+
+# --- Core Scientific Libraries ---
+numpy>=1.23,<2.2
+scipy>=1.10
+h5py>=3.10
+pyyaml>=6.0
+matplotlib>=3.7
+
