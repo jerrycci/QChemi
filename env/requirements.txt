@@ -1,9 +1,8 @@
-# --- Qiskit Quantum Stack (Python 3.8 compatible) ---
-qiskit==1.2.4
-# Aer 0.13.3 is the last prebuilt wheel supporting Python 3.8
-qiskit-aer==0.13.3
-# Compatible Nature version for Qiskit 1.x
+# --- Qiskit Legacy Stack (compatible with VQE scripts) ---
+qiskit>=1.2
 qiskit-nature==0.7.2
+qiskit-algorithms>=0.3
+qiskit-aer>=0.14
 
 # --- Quantum Chemistry backend ---
 pyscf==2.10.0

@@ -14,6 +14,7 @@
 python -m venv qiskit-env
 source qiskit-env/bin/activate
 pip install -r env/requirements.txt
+pip install -e .
 ```
 
 ## H₂ 最小範例（V2 primitives）
