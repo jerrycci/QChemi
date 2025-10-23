@@ -127,8 +127,79 @@ pymol examples/bace1/109-4DK5/ligand.sdf &
 ---
 
 ## 🧑‍🔬 Example
-```bash
-source ~/openchem_env/bin/activate
-python3 examples/bace1/batch_generate_ligands_and_charges.py
-# Output: 12 ligands each with ligand.sdf and charges.txt ready for CCSD calculation
-```
+以下命令可完整重現論文 Kirsopp et al., Int. J. Quantum Chem., 2022
+的「classical CCSD without active space」輸入前處理。
+
+1️⃣ 生成所有 ligand 輸入檔案
+
+執行整批自動流程（包含 ligand.sdf 與 charges.txt）：
+
+python3 batch_generate_ligands_and_charges.py
+
+
+此步驟會：
+
+從 examples/bace1/data/*.pdb 自動分離 protein 與 ligand；
+
+生成經胍基陽離子化（NH₂–C(=NH⁺)–NH₂）的 ligand.sdf；
+
+以 pdb2pqr 建立蛋白質電荷；
+
+加入 Na⁺ 中和離子；
+
+自動添加一個最終 校正點電荷（確保總電荷 ≈ 0）。
+
+2️⃣ 驗證 ligand 幾何與帶電狀態
+
+以任一配體（例：109-4DK5）進行檢查：
+
+python3 validate_sdf_topology.py ./output/109-4DK5
+
+
+預期輸出：
+
+Formal charge (SDF) = +1
+Has NH2-C(=NH+)-NH2 headgroup? Yes
+✅ ligand.sdf checks complete.
+
+
+這代表：
+
+配體成功帶正電 (+1)；
+
+胍基中心被正確偵測；
+
+幾何未變形（RMSD ≈ 0）。
+
+3️⃣ 驗證 charges.txt 與總電荷中和性
+
+接著確認點電荷與中和狀態：
+
+python3 validate_charges_relaxed.py ./output/109-4DK5
+
+
+預期輸出：
+
+Note: 17 extra point charges (ions or correction) present.
+Total charge from charges.txt = 0.0000 e
+✅ charges.txt basic checks complete.
+
+
+這代表：
+
+17 顆 Na⁺ 及最終校正點電荷已自動加入；
+
+系統總電荷為 0；
+
+所有蛋白電荷成功轉換。
+
+✅ 驗證通過後
+
+每個 ligand 資料夾（如 output/109-4DK5/）將包含：
+
+ligand.sdf — 可直接輸入 DMET / CCSD 模組
+
+protein.pqr — 含溶液相點電荷分布
+
+charges.txt — 以 AMBER10:EHT 對應點電荷
+這些輸入即可用於 classical CCSD without active space 方法的能量計算。
